@@ -14,6 +14,15 @@ Previous context:-
 ```{prev_context}```                                   
 """)
 
+### System prompt
+system_prompt_template = PromptTemplate.from_template("""
+You are a helpful assistant that has access to a dataset read as a python dataframe with the variable name being "df". 
+The columns of the dataset are {columns}. Each column is comma seperated and case sensitive.
+Your goal is to answer the user quries to the best of your understanding. Use the tools provided if necessary. Please make sure that your output is frinedly
+""")
+
+
+
 ### prompts for code generation 
 code_generation_prompt_template_geninfo = PromptTemplate.from_template("""
 You are an assistant that has access to a dataset read as a python dataframe with the variable name being "df". 
