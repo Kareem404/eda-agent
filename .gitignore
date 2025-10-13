@@ -1,0 +1,6 @@
+__pycache__
+.env
+agent.ipynb
+random_df_generation.ipynb
+test_df.csv
+Titanic-Dataset.csv
