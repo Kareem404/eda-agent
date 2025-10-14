@@ -107,5 +107,5 @@ class AgentReAct():
         return {
             "text": self.messages[-1].content, 
             "plots": self.plots, 
-            "df": csv_encoding(self.df)
+            "df": self.df
         }

@@ -29,6 +29,6 @@ Make sure you modify the `agent_run.py` file to include the path of your csv fil
 print('Reading dataset...')
 df = pd.read_csv('Titanic-Dataset.csv') # add your path here
 ```
-
+Please note that since you will be running the application in the CLI, you will not be able to see plots if you request any. Additionally, a new csv file `new_df.csv` that saves the modified df automatically after each request.  
 # 3. Cluade Desktop
 An MCP server will be created to host this agent and you will be able to use the agent in claude desktop later!
