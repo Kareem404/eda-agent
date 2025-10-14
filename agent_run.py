@@ -1,11 +1,11 @@
-from agent import Agent
+from agent import AgentReAct
 import pandas as pd
 
 print('Reading dataset...')
 df = pd.read_csv('Titanic-Dataset.csv')
 
 print("Loading Agent...")
-bot = Agent(df=df)
+bot = AgentReAct(df=df)
 
 print('Agent Loaded!')
 while True:
@@ -14,3 +14,4 @@ while True:
         break
     response = bot.get_response(user_input)
     print(f"agent: {response['text']}")
+    print(f"plots: {len(response['plots'])}")
