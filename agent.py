@@ -13,16 +13,6 @@ from langgraph.prebuilt import create_react_agent
 import logging
 from pydantic import BaseModel, Field
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,  # You can use DEBUG for more detail
-    format="%(asctime)s [%(levelname)s] %(message)s",
-    handlers=[
-        logging.StreamHandler(), 
-    ]
-)
-
-logger = logging.getLogger(__name__)
 
 
 class AgentReAct():
@@ -50,7 +40,7 @@ class AgentReAct():
                 name="CodeExecutionModification", 
                 func=self.__execute_code_modifying, 
                 description=(
-                   "Tool for executing code involving dataframe 'df' modification. It expects code generated from the CodeGeneration tool. "
+                   "Tool for executing code involving dataframe 'df' modification. "
                     "Returns a base64 encoded file representing a new csv file and internally modifies the dataframe"
                 ),
             ), 
@@ -70,7 +60,6 @@ class AgentReAct():
     # tool_1
     def __execute_code_plotting(self, code: str):
         self.plots = []
-        logger.info(f"[Tool Call] ExecuteCodePlotting | Code={code}")
         code_execution_tool = PythonAstREPLTool(locals={"df": self.df, "pd": pd, "np": np})
         code_execution_tool.invoke(code) # execute the code
         self.plots.append(base64encoding(code_execution_tool.locals['plt_figure'])) # add the plot
@@ -78,22 +67,17 @@ class AgentReAct():
 
     # tool_3
     def __execute_code_modifying(self, code: str):
-        logger.info(f"[Tool Call] ExecuteCodeModifying | Code={code}")  
         code_execution_tool = PythonAstREPLTool(locals={"df": self.df, "pd": pd, "np": np})
         code_execution_tool.invoke(code) # execute the code
         self.df = code_execution_tool.locals['df'] 
-        logging.info(f"Number of columns = {self.df.columns}")
         return "modified df successfully" # get the new encoded df
     
     # tool_4
     def __execute_code_geninfo(self, code: str) -> str:
-        logger.info(f"[Tool Call] ExecuteCodeGenInfo | Code={code}")
         code_execution_tool = PythonAstREPLTool(locals={"df": self.df, "pd": pd, "np": np})
         output = code_execution_tool.invoke(code) # execute the code
         return output # get output (usually in a print statemnet)     
 
-
-    # method to expose to MCP server
     def get_response(self, prompt):
         self.messages.append(HumanMessage(content=prompt))
         self.plots = []
@@ -107,5 +91,5 @@ class AgentReAct():
         return {
             "text": self.messages[-1].content, 
             "plots": self.plots, 
-            "df": self.df
+            "df": self.df.to_csv(index=False)
         }
