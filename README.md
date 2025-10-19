@@ -31,4 +31,17 @@ df = pd.read_csv('Titanic-Dataset.csv') # add your path here
 ```
 Please note that since you will be running the application in the CLI, you will not be able to see plots if you request any. Additionally, a new csv file `new_df.csv` that saves the modified df automatically after each request.  
 # 3. MCP Server
-An MCP server will be created to host this agent and you will be able to use the agent in claude desktop later!
+Instead of running the agent locally, an MCP server was created using the streamable HTTP protocol to host the tools that are required by our agent. In addition, the MCP server hosts two resources as well required for us to fetch the updated csv file and plots if any.
+
+To run the server:
+```
+python server.py
+```
+This creates an MCP server locally running in `http://localhost:8001`. 
+
+Additionally, a simple client application was created to interface with the MCP server using gradio. To use the client application, run:
+```
+python gradio_client.py
+```
+
+Please note that I have not deployed the server because the tools execute python code that might be exploited later.
