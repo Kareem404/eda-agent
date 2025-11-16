@@ -7,7 +7,7 @@ An AI agent developed that can preform data exploration in a csv file. The agent
 # 1. Agent Architecture
 The agent follows the reAct paradigm for reasoning. To find more, please read this [paper](https://arxiv.org/abs/2210.03629) in which this technique was proposed. Three main tools were exposed to the agent to be used, in which all involve code execution for the three main features. For code to be executed, the REPL tool was used, specifically the langchain wrapper [Python REPL](https://python.langchain.com/docs/integrations/tools/python/). As for the LLM, `gpt-4o-mini` was used due to its moderate reasoning cababilities and low cost.
 
-# 2. Usage
+# 2. Requirements
 To use the application locally, clone the repo:
 ```
 git clone https://github.com/Kareem404/eda-agent.git
@@ -20,28 +20,17 @@ Install the requirements:
 ```
 pip install -r requirements.txt
 ```
-Run the application locally:
-```
-python agent_run.py
-````
-Make sure you modify the `agent_run.py` file to include the path of your csv file.
-```
-print('Reading dataset...')
-df = pd.read_csv('Titanic-Dataset.csv') # add your path here
-```
-Please note that since you will be running the application in the CLI, you will not be able to see plots if you request any. Additionally, a new csv file `new_df.csv` that saves the modified df automatically after each request.  
+  
 # 3. MCP Server
-Instead of running the agent locally, an MCP server was created using the streamable HTTP protocol to host the tools that are required by our agent. In addition, the MCP server hosts two resources as well required for us to fetch the updated csv file and plots if any.
+An MCP server was created using the streamable HTTP protocol to host the tools that are required by our agent. In addition, the MCP server hosts two resources as well required for us to fetch the updated csv file and plots if any.
 
 To run the server:
 ```
-python server.py
+python ./src/server.py
 ```
 This creates an MCP server locally running in `http://localhost:8001`. 
 
 Additionally, a simple client application was created to interface with the MCP server using gradio. To use the client application, run:
 ```
-python gradio_client.py
+python ./src/client_app.py
 ```
-
-Please note that I have not deployed the server because the tools execute python code that might be exploited later.

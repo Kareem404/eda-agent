@@ -1,8 +1,6 @@
 from langchain.chat_models import init_chat_model
-from prompts import system_prompt_template, code_generation_prompt_template_geninfo, code_generation_prompt_template_modification, code_generation_prompt_template_plotting
+from prompts import system_prompt_template
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
-from base_models import Code
-from langchain_core.prompts import PromptTemplate
 from langchain_experimental.tools import PythonAstREPLTool
 from langchain.agents import Tool
 import numpy as np
@@ -10,9 +8,6 @@ import pandas as pd
 from utils import base64encoding, csv_encoding
 from dotenv import load_dotenv
 from langgraph.prebuilt import create_react_agent
-import logging
-from pydantic import BaseModel, Field
-
 
 
 class AgentReAct():
